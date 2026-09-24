@@ -158,31 +158,38 @@
   </header>
   <p>
     Skills are simple Python scripts with descriptions that assist AI agents
-    in calling those scripts. Skills can be run directly in your terminal,
-    added to your favorite agent, accessed via MCP, or used through our
-    hosted chat interface.
+    in calling those scripts. Use them through our hosted chat interface,
+    via MCP, in your favorite agent, or directly in your terminal.
   </p>
 
   <div class="gs">
-    <input class="gs-radio" type="radio" name="getting-started" id="gs-cli" checked>
-    <input class="gs-radio" type="radio" name="getting-started" id="gs-agents">
+    <input class="gs-radio" type="radio" name="getting-started" id="gs-chat" checked>
     <input class="gs-radio" type="radio" name="getting-started" id="gs-mcp">
-    <input class="gs-radio" type="radio" name="getting-started" id="gs-chat">
+    <input class="gs-radio" type="radio" name="getting-started" id="gs-agents">
+    <input class="gs-radio" type="radio" name="getting-started" id="gs-cli">
 
     <div class="gs-tabs">
-      <label for="gs-cli">As a CLI tool</label>
-      <label for="gs-agents">As agent skills</label>
-      <label for="gs-mcp">As an MCP</label>
       <label for="gs-chat">Weather Skills Chat</label>
+      <label for="gs-mcp">As an MCP</label>
+      <label for="gs-agents">As agent skills</label>
+      <label for="gs-cli">As a CLI tool</label>
     </div>
 
-    <div class="gs-panel gs-panel-cli">
-      <p>For command-line use, with no install:</p>
-      <pre><code># List available skills
-uvx --from git+https://github.com/weather-skills/weather-skills-catalog weather-skills
+    <div class="gs-panel gs-panel-chat">
+      <p>
+        We are rolling out a hosted version of weather skills. Request access
+        if you are interested in being a beta tester.
+      </p>
+      <figure class="gs-chat-recording">
+        <img src="weather-skills-chat-orig.gif" width="1062" height="618"
+             alt="Screen recording of Weather Skills Chat. The Weather Agent offers prompts to show observations, download a forecast, or compare a forecast with observations."
+             loading="lazy" decoding="async">
+      </figure>
+      <p><a class="cta" href="https://chat.weather-skills.org">Request access &#8594;</a></p>
+    </div>
 
-# Run one
-uvx --from git+https://github.com/weather-skills/weather-skills-catalog weather-skills &lt;skill&gt; [args]</code></pre>
+    <div class="gs-panel gs-panel-mcp">
+      <p>A hosted MCP will be coming soon.</p>
     </div>
 
     <div class="gs-panel gs-panel-agents">
@@ -197,16 +204,13 @@ npx skillkit install weather-skills/weather-skills-catalog --all --yes
 npx skillkit install weather-skills/weather-skills-catalog --skill=ecmwf-fetch</code></pre>
     </div>
 
-    <div class="gs-panel gs-panel-mcp">
-      <p>A hosted MCP will be coming soon.</p>
-    </div>
+    <div class="gs-panel gs-panel-cli">
+      <p>For command-line use, with no install:</p>
+      <pre><code># List available skills
+uvx --from git+https://github.com/weather-skills/weather-skills-catalog weather-skills
 
-    <div class="gs-panel gs-panel-chat">
-      <p>
-        We are rolling out a hosted version of weather skills. Request access
-        if you are interested in being a beta tester.
-      </p>
-      <p><a class="cta" href="https://chat.weather-skills.org">Request access &#8594;</a></p>
+# Run one
+uvx --from git+https://github.com/weather-skills/weather-skills-catalog weather-skills &lt;skill&gt; [args]</code></pre>
     </div>
   </div>
 </section>

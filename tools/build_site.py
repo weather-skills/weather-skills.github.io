@@ -156,6 +156,7 @@ STATIC_FILES = (
     "demo.js",
     "demo_sen_weekly.png",
     "demo_sen_gmb_weekly.png",
+    "weather-skills-chat-orig.gif",
 )
 
 # Written into the output directory so a later build can recognize the

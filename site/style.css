@@ -868,6 +868,21 @@ pre code {
 #gs-mcp:checked ~ .gs-panel-mcp,
 #gs-chat:checked ~ .gs-panel-chat { display: block; }
 
+.gs-chat-recording {
+  margin: 1rem 0 1.15rem;
+  max-width: 480px;
+}
+
+.gs-chat-recording img {
+  display: block;
+  width: 480px;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--paper);
+}
+
 /* ---------- governance ---------- */
 
 .cta {
