@@ -22,7 +22,7 @@ Checks, per the site's stated constraints:
      allowlist: the weather-skills catalog, the weather-skills-core
      references repository, the hosted chat at
      chat.weather-skills.org, the two references the page makes by design
-     (the Agent Skills site and skillkit), and mailto:info@rhizaresearch.org;
+     (the Agent Skills site and skillkit), and mailto:help@weather-skills.org;
    - plain-text URL mentions outside attributes are permitted.
    Attributes are read with the HTML parser, not regex; scheme and host
    matching is case-insensitive.
@@ -82,7 +82,7 @@ ALLOWED_LINK_PREFIXES = (
     "https://chat.weather-skills.org",
 )
 # mailto: targets the page may link. Matched on the address, case-insensitive.
-ALLOWED_MAILTO = ("info@rhizaresearch.org",)
+ALLOWED_MAILTO = ("help@weather-skills.org",)
 
 _CSS_URL_RE = re.compile(r"url\(\s*(['\"]?)([^)'\"]+)\1\s*\)", re.IGNORECASE)
 
