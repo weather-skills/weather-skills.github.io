@@ -18,7 +18,7 @@
       <span class="meta-sep" aria-hidden="true">/</span>
       <span>MIT license</span>
       <span class="meta-sep" aria-hidden="true">/</span>
-      <a href="https://github.com/weather-skills/weather-skills-catalog">github</a>
+      <a href="https://github.com/weather-skills/weather-skills-catalog" target="_blank" rel="noopener noreferrer">github</a>
     </div>
     <nav class="masthead-nav" aria-label="Sections">
       <a href="#demo">see it run</a>
@@ -36,19 +36,20 @@
   <div class="hero-inner">
     <div class="hero-grid">
       <div class="hero-copy">
-        <p class="kicker">An AI-ready library for weather and climate data</p>
-        <h1>Use natural language to fetch, transform, and visualize weather data&nbsp;<span class="h1-hook">— with provenance you can audit</span></h1>
+        <p class="kicker">An AI-ready toolkit library for weather and climate data</p>
+        <h1>Use chat to fetch, transform, and visualize weather data&nbsp;<span class="h1-hook">— with provenance you can audit</span></h1>
         <p class="lede">
           Weather skills are composable tools that allow AI agents to support
           operational forecasting, scientific exploration of climate data,
           and the use of forecasts and weather data for specific applications.
-          Each weather skill is <em>expert-reviewed</em> and the results are
-          backed by <em>provenance</em>, so you can be sure that AI is only
-          helping you call the right tools and not modifying the underlying
-          data. Initiated by Rhiza Research, we hope a community effort can
-          steward the catalog.
+          Each weather skill is expert-reviewed, and its outputs are generated
+          deterministically by that reviewed code — the agent only decides
+          which tools to call, it never touches the underlying data. Every
+          result carries provenance, so you can inspect the exact chain of
+          tool calls that produced it. Initiated by Rhiza Research, with a
+          community effort to steward the catalog.
         </p>
-        <a class="try-button" href="https://chat.weather-skills.org">
+        <a class="try-button" href="https://chat.weather-skills.org" target="_blank" rel="noopener noreferrer">
           <span class="try-button-title">Request access &#8594;</span>
           <span class="try-button-sub">request early access to the hosted weather skills platform</span>
         </a>
@@ -157,9 +158,10 @@
     <h2>Getting started</h2>
   </header>
   <p>
-    Skills are simple Python scripts with descriptions that assist AI agents
-    in calling those scripts. Use them through our hosted chat interface,
-    via MCP, in your favorite agent, or directly in your terminal.
+    Skills are simple, <strong>expert-reviewed,</strong> Python scripts with
+    descriptions that assist AI agents in calling those scripts. Use them
+    through our hosted chat interface, via MCP, in your favorite agent, or
+    directly in your terminal.
   </p>
 
   <div class="gs">
@@ -185,7 +187,7 @@
              alt="Screen recording of Weather Skills Chat. The Weather Agent offers prompts to show observations, download a forecast, or compare a forecast with observations."
              loading="lazy" decoding="async">
       </figure>
-      <p><a class="cta" href="https://chat.weather-skills.org">Request access &#8594;</a></p>
+      <p><a class="cta" href="https://chat.weather-skills.org" target="_blank" rel="noopener noreferrer">Request access &#8594;</a></p>
     </div>
 
     <div class="gs-panel gs-panel-mcp">
@@ -193,7 +195,7 @@
     </div>
 
     <div class="gs-panel gs-panel-agents">
-      <p>For use by a local agent, install the <code>SKILL.md</code> files into your project with <a href="https://github.com/rohitg00/skillkit">skillkit</a>:</p>
+      <p>For use by a local agent, install the <code>SKILL.md</code> files into your project with <a href="https://github.com/rohitg00/skillkit" target="_blank" rel="noopener noreferrer">skillkit</a>:</p>
       <pre><code># List what skillkit discovers in the repo
 npx skillkit install weather-skills/weather-skills-catalog --list
 
@@ -229,18 +231,18 @@ uvx --from git+https://github.com/weather-skills/weather-skills-catalog weather-
   <p>
     To make sure skills work well together, skills follow standard data format
     and argument conventions, but most of the work is handled by the
-    <code>weather-skills-core</code> package so that you can focus on your
+    <a href="https://github.com/rhiza-research/weather-skills-core" target="_blank" rel="noopener noreferrer"><code>weather-skills-core</code></a> package so that you can focus on your
     use case.
   </p>
   <p>
     Check out existing skills in the
-    <a href="https://github.com/weather-skills/weather-skills-catalog">weather skills catalog</a>
+    <a href="https://github.com/weather-skills/weather-skills-catalog" target="_blank" rel="noopener noreferrer">weather skills catalog</a>
     to get started, or reach out to us at
     <a href="mailto:info@rhizaresearch.org">info@rhizaresearch.org</a>
     so that we can help.
   </p>
   <p>
-    <a class="cta" href="https://github.com/weather-skills/weather-skills-catalog/issues">Submit a skill &#8594;</a>
+    <a class="cta" href="https://github.com/weather-skills/weather-skills-catalog/issues" target="_blank" rel="noopener noreferrer">Submit a skill &#8594;</a>
   </p>
 </section>
 
@@ -252,7 +254,7 @@ uvx --from git+https://github.com/weather-skills/weather-skills-catalog weather-
   <p>
     A view of current capabilities. Click a skill for a short description.
     Full write-ups are in the
-    <a href="https://github.com/weather-skills/weather-skills-catalog">weather skills catalog</a>.
+    <a href="https://github.com/weather-skills/weather-skills-catalog" target="_blank" rel="noopener noreferrer">weather skills catalog</a>.
   </p>
 
   <!-- gen:catalog -->
@@ -270,8 +272,8 @@ uvx --from git+https://github.com/weather-skills/weather-skills-catalog weather-
   </p>
   <p>
     Until that process is in place, contributions go through the repository directly:
-    open an <a href="https://github.com/weather-skills/weather-skills-catalog/issues">issue</a>
-    or a <a href="https://github.com/weather-skills/weather-skills-catalog/pulls">pull request</a>.
+    open an <a href="https://github.com/weather-skills/weather-skills-catalog/issues" target="_blank" rel="noopener noreferrer">issue</a>
+    or a <a href="https://github.com/weather-skills/weather-skills-catalog/pulls" target="_blank" rel="noopener noreferrer">pull request</a>.
   </p>
 </section>
 
@@ -281,9 +283,9 @@ uvx --from git+https://github.com/weather-skills/weather-skills-catalog weather-
   <div class="footer-inner">
     <span class="site-id">weather&#8209;skills.org</span>
     <span>
-      <a href="https://github.com/weather-skills/weather-skills-catalog">Source on GitHub</a>
+      <a href="https://github.com/weather-skills/weather-skills-catalog" target="_blank" rel="noopener noreferrer">Source on GitHub</a>
       <span class="meta-sep" aria-hidden="true">/</span>
-      <a href="https://github.com/weather-skills/weather-skills-catalog/blob/main/LICENSE">MIT license</a>
+      <a href="https://github.com/weather-skills/weather-skills-catalog/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">MIT license</a>
     </span>
   </div>
 </footer>

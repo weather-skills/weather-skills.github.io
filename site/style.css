@@ -870,12 +870,12 @@ pre code {
 
 .gs-chat-recording {
   margin: 1rem 0 1.15rem;
-  max-width: 480px;
+  max-width: 624px;
 }
 
 .gs-chat-recording img {
   display: block;
-  width: 480px;
+  width: 624px;
   max-width: 100%;
   height: auto;
   border: 1px solid var(--rule);
