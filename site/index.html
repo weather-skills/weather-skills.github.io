@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>weather-skills.org — curated weather and climate data skills for AI agents</title>
+<meta name="description" content="Weather skills turn scientific weather-data pipelines into fixed, reviewable tools for agentic AI. Every output carries provenance: a record of which skill, version, and arguments produced it.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="masthead-meta">
+      <span class="site-id">weather&#8209;skills.org</span>
+      <span class="meta-sep" aria-hidden="true">/</span>
+      <span><!-- gen:skill-count --> skills</span>
+      <span class="meta-sep" aria-hidden="true">/</span>
+      <span>MIT license</span>
+      <span class="meta-sep" aria-hidden="true">/</span>
+      <a href="https://github.com/weather-skills/weather-skills-catalog">github</a>
+    </div>
+    <nav class="masthead-nav" aria-label="Sections">
+      <a href="#demo">see it run</a>
+      <a href="#getting-started">getting started</a>
+      <a href="#adding-skills">adding your own skills</a>
+      <a href="#skills">skill catalog</a>
+      <a href="#governance">governance</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="kicker">An AI-ready library for weather and climate data</p>
+        <h1>Use natural language to fetch, transform, and visualize weather data&nbsp;<span class="h1-hook">— with provenance you can audit</span></h1>
+        <p class="lede">
+          Weather skills are composable tools that allow AI agents to support
+          operational forecasting, scientific exploration of climate data,
+          and the use of forecasts and weather data for specific applications.
+          Each weather skill is <em>expert-reviewed</em> and the results are
+          backed by <em>provenance</em>, so you can be sure that AI is only
+          helping you call the right tools and not modifying the underlying
+          data. Initiated by Rhiza Research, we hope a community effort can
+          steward the catalog.
+        </p>
+        <a class="try-button" href="https://chat.weather-skills.org">
+          <span class="try-button-title">Request access &#8594;</span>
+          <span class="try-button-sub">request early access to the hosted weather skills platform</span>
+        </a>
+      </div>
+      <div class="hero-aside">
+        <figure class="skill-flow">
+          <figcaption class="card-label">weather skills</figcaption>
+          <ol>
+            <li>
+              <div class="flow-step-copy">
+                <span class="flow-step-name">Fetch</span>
+                <span class="flow-step-note">forecasts and observations</span>
+              </div>
+              <svg class="flow-fig" viewBox="0 0 104 80" role="img" aria-label="A gridded rainfall field, dry in the north and wetter toward the south, in the precipitation color scale.">
+                <rect x="4" y="4" width="11" height="11" fill="#f7f4ec"/><rect x="16" y="4" width="11" height="11" fill="#f7f4ec"/><rect x="28" y="4" width="11" height="11" fill="#f3e2bc"/><rect x="40" y="4" width="11" height="11" fill="#f3e2bc"/><rect x="52" y="4" width="11" height="11" fill="#f7f4ec"/><rect x="64" y="4" width="11" height="11" fill="#f3e2bc"/><rect x="76" y="4" width="11" height="11" fill="#e4cc96"/><rect x="88" y="4" width="11" height="11" fill="#f3e2bc"/>
+                <rect x="4" y="16" width="11" height="11" fill="#f3e2bc"/><rect x="16" y="16" width="11" height="11" fill="#f3e2bc"/><rect x="28" y="16" width="11" height="11" fill="#e4cc96"/><rect x="40" y="16" width="11" height="11" fill="#d4eea0"/><rect x="52" y="16" width="11" height="11" fill="#e4cc96"/><rect x="64" y="16" width="11" height="11" fill="#f3e2bc"/><rect x="76" y="16" width="11" height="11" fill="#e4cc96"/><rect x="88" y="16" width="11" height="11" fill="#d4eea0"/>
+                <rect x="4" y="28" width="11" height="11" fill="#e4cc96"/><rect x="16" y="28" width="11" height="11" fill="#d4eea0"/><rect x="28" y="28" width="11" height="11" fill="#74c85e"/><rect x="40" y="28" width="11" height="11" fill="#2c9644"/><rect x="52" y="28" width="11" height="11" fill="#74c85e"/><rect x="64" y="28" width="11" height="11" fill="#d4eea0"/><rect x="76" y="28" width="11" height="11" fill="#74c85e"/><rect x="88" y="28" width="11" height="11" fill="#2c9644"/>
+                <rect x="4" y="40" width="11" height="11" fill="#d4eea0"/><rect x="16" y="40" width="11" height="11" fill="#74c85e"/><rect x="28" y="40" width="11" height="11" fill="#74c4e6"/><rect x="40" y="40" width="11" height="11" fill="#3a76d2"/><rect x="52" y="40" width="11" height="11" fill="#2a4294"/><rect x="64" y="40" width="11" height="11" fill="#74c4e6"/><rect x="76" y="40" width="11" height="11" fill="#2c9644"/><rect x="88" y="40" width="11" height="11" fill="#74c85e"/>
+                <rect x="4" y="52" width="11" height="11" fill="#74c85e"/><rect x="16" y="52" width="11" height="11" fill="#2c9644"/><rect x="28" y="52" width="11" height="11" fill="#3a76d2"/><rect x="40" y="52" width="11" height="11" fill="#6c409c"/><rect x="52" y="52" width="11" height="11" fill="#2a4294"/><rect x="64" y="52" width="11" height="11" fill="#3a76d2"/><rect x="76" y="52" width="11" height="11" fill="#74c4e6"/><rect x="88" y="52" width="11" height="11" fill="#2c9644"/>
+                <rect x="4" y="64" width="11" height="11" fill="#d4eea0"/><rect x="16" y="64" width="11" height="11" fill="#74c85e"/><rect x="28" y="64" width="11" height="11" fill="#74c4e6"/><rect x="40" y="64" width="11" height="11" fill="#3a76d2"/><rect x="52" y="64" width="11" height="11" fill="#74c4e6"/><rect x="64" y="64" width="11" height="11" fill="#2c9644"/><rect x="76" y="64" width="11" height="11" fill="#74c85e"/><rect x="88" y="64" width="11" height="11" fill="#d4eea0"/>
+              </svg>
+            </li>
+            <li>
+              <div class="flow-step-copy">
+                <span class="flow-step-name">Transform</span>
+                <span class="flow-step-note">clip, aggregate, convert</span>
+              </div>
+              <svg class="flow-fig" viewBox="0 0 104 80" role="img" aria-label="The same rainfall field aggregated into coarser cells.">
+                <rect x="4" y="4" width="22" height="22" fill="#f3e2bc"/><rect x="28" y="4" width="22" height="22" fill="#e4cc96"/><rect x="52" y="4" width="22" height="22" fill="#f3e2bc"/><rect x="76" y="4" width="22" height="22" fill="#e4cc96"/>
+                <rect x="4" y="28" width="22" height="22" fill="#d4eea0"/><rect x="28" y="28" width="22" height="22" fill="#74c4e6"/><rect x="52" y="28" width="22" height="22" fill="#74c4e6"/><rect x="76" y="28" width="22" height="22" fill="#2c9644"/>
+                <rect x="4" y="52" width="22" height="22" fill="#74c85e"/><rect x="28" y="52" width="22" height="22" fill="#3a76d2"/><rect x="52" y="52" width="22" height="22" fill="#3a76d2"/><rect x="76" y="52" width="22" height="22" fill="#2c9644"/>
+              </svg>
+            </li>
+            <li>
+              <div class="flow-step-copy">
+                <span class="flow-step-name">Visualize</span>
+                <span class="flow-step-note">maps and time series</span>
+              </div>
+              <svg class="flow-fig" viewBox="0 0 160 104" role="img" aria-label="Weekly rainfall trajectories: gray ensemble members, colored analog years, a short black observed line, and a red forecast mean.">
+                <line class="axis" x1="14" y1="8" x2="14" y2="92"/>
+                <line class="axis" x1="14" y1="92" x2="154" y2="92"/>
+                <polyline class="ens" points="18,86.7 27.8,87.8 37.7,88.3 47.5,88.9 57.4,87.8 67.2,85.5 77.1,80 86.9,67.7 96.8,77.7 106.6,70.5 116.5,63.3 126.3,73.3 136.2,77.7 146,80"/>
+                <polyline class="ens" points="18,87.8 27.8,88.3 37.7,88.9 47.5,88.3 57.4,87.2 67.2,83.3 77.1,74.4 86.9,59.4 96.8,68.8 106.6,74.4 116.5,55.5 126.3,65.5 136.2,80 146,83.3"/>
+                <polyline class="ens" points="18,85.5 27.8,87.2 37.7,87.8 47.5,88.3 57.4,86.7 67.2,81.6 77.1,70.5 86.9,51 96.8,63.3 106.6,66.6 116.5,41 126.3,62.1 136.2,74.4 146,78.9"/>
+                <polyline class="ens" points="18,88.3 27.8,88.9 37.7,88.9 47.5,88.9 57.4,85.5 67.2,78.9 77.1,64.9 86.9,76.1 96.8,56.6 106.6,45.4 116.5,67.7 126.3,70.5 136.2,76.1 146,81.6"/>
+                <polyline class="ens" points="18,87.2 27.8,87.8 37.7,88.3 47.5,87.8 57.4,84.4 67.2,80 77.1,73.3 86.9,63.3 96.8,80 106.6,59.4 116.5,51 126.3,56.6 136.2,67.7 146,73.3"/>
+                <polyline class="ens" points="18,86.1 27.8,86.7 37.7,87.8 47.5,88.3 57.4,87.2 67.2,85 77.1,77.7 86.9,69.9 96.8,62.1 106.6,73.3 116.5,64.9 126.3,59.4 136.2,72.2 146,77.7"/>
+                <polyline class="ens" points="18,87.8 27.8,88.3 37.7,88.9 47.5,88.9 57.4,86.7 67.2,82.2 77.1,67.7 86.9,55.5 96.8,74.4 106.6,63.3 116.5,37.1 126.3,67.7 136.2,81.1 146,84.4"/>
+                <polyline class="ens" points="18,85 27.8,87.2 37.7,88.3 47.5,87.8 57.4,86.1 67.2,81.1 77.1,75.5 86.9,65.5 96.8,69.9 106.6,61 116.5,57.7 126.3,63.3 136.2,69.9 146,74.4"/>
+                <polyline class="yr" stroke="#e07a72" points="18,87.8 27.8,86.7 37.7,88.3 47.5,88.9 57.4,87.8 67.2,85.5 77.1,82.2 86.9,77.7 96.8,63.3 106.6,68.8 116.5,20.4 126.3,52.1 136.2,59.4 146,74.4"/>
+                <polyline class="yr" stroke="#6aaa3a" points="18,86.7 27.8,85.5 37.7,87.2 47.5,81.1 57.4,85.5 67.2,86.7 77.1,80 86.9,64.4 96.8,63.3 106.6,78.9 116.5,74.4 126.3,38.7 136.2,63.3 146,77.7"/>
+                <polyline class="yr" stroke="#8d62b0" points="18,83.3 27.8,86.7 37.7,84.4 47.5,82.2 57.4,86.7 67.2,87.8 77.1,83.3 86.9,74.4 96.8,59.4 106.6,33.2 116.5,53.2 126.3,53.2 136.2,82.2 146,80"/>
+                <polyline class="yr" stroke="#e0a24a" points="18,87.8 27.8,88.3 37.7,88.9 47.5,87.8 57.4,86.7 67.2,85.5 77.1,83.3 86.9,78.9 96.8,68.8 106.6,66.6 116.5,61 126.3,74.4 136.2,75.5 146,83.3"/>
+                <polyline class="halo" points="18,85.5 27.8,87.8 37.7,88.3 47.5,88.9 57.4,88.9 67.2,88.3"/>
+                <polyline class="obs" points="18,85.5 27.8,87.8 37.7,88.3 47.5,88.9 57.4,88.9 67.2,88.3"/>
+                <polyline class="halo" points="67.2,84.4 77.1,81.1 86.9,72.2 96.8,64.9 106.6,66"/>
+                <polyline class="mean" points="67.2,84.4 77.1,81.1 86.9,72.2 96.8,64.9 106.6,66"/>
+                <circle class="mean-dot" cx="67.2" cy="84.4" r="2.1"/><circle class="mean-dot" cx="77.1" cy="81.1" r="2.1"/><circle class="mean-dot" cx="86.9" cy="72.2" r="2.1"/><circle class="mean-dot" cx="96.8" cy="64.9" r="2.1"/><circle class="mean-dot" cx="106.6" cy="66" r="2.1"/>
+              </svg>
+            </li>
+          </ol>
+          <p class="card-foot">Provenance is recorded at every step.</p>
+        </figure>
+      </div>
+    </div>
+    <aside class="notice" role="note">
+      <strong>We are looking for beta testers!</strong>
+      If you are excited to use weather skills for your application please let us know
+      <a href="mailto:info@rhizaresearch.org">info@rhizaresearch.org</a>.
+    </aside>
+  </div>
+</section>
+
+<section id="demo" class="section">
+  <header class="section-head">
+    <span class="section-no">01</span>
+    <h2>See it run</h2>
+  </header>
+  <p>
+    From a natural-language request, the agent picks skills and runs them in
+    order. This is a real session, replayed.
+  </p>
+  <div class="demo-stage" data-demo-replay aria-label="Replay of an agent session composing weather skills">
+    <div class="demo-screen">
+      <span class="demo-screen-label">agent session</span>
+    </div>
+    <div class="demo-thread" data-demo-thread></div>
+    <div class="demo-composer" aria-hidden="true">
+      <span class="demo-composer-text">Ask for weather or climate data&#8230;</span>
+      <span class="demo-composer-send">&#8593;</span>
+    </div>
+    <noscript>
+      <figure class="demo-figure">
+        <img src="demo_sen_gmb_weekly.png" width="3259" height="870"
+             alt="Three-panel weekly IMERG precipitation map for Senegal and The Gambia, May 24 to June 13 2026, produced by the agent pipeline: resolve region, fetch IMERG, clip, aggregate weekly, plot with a country mask."
+             loading="lazy" decoding="async">
+        <figcaption class="demo-fig-cap">imerg_sen_gmb_weekly.png &#8212; the final output of the replayed session.</figcaption>
+      </figure>
+    </noscript>
+  </div>
+</section>
+
+<section id="getting-started" class="section">
+  <header class="section-head">
+    <span class="section-no">02</span>
+    <h2>Getting started</h2>
+  </header>
+  <p>
+    Skills are simple Python scripts with descriptions that assist AI agents
+    in calling those scripts. Skills can be run directly in your terminal,
+    added to your favorite agent, accessed via MCP, or used through our
+    hosted chat interface.
+  </p>
+
+  <div class="gs">
+    <input class="gs-radio" type="radio" name="getting-started" id="gs-cli" checked>
+    <input class="gs-radio" type="radio" name="getting-started" id="gs-agents">
+    <input class="gs-radio" type="radio" name="getting-started" id="gs-mcp">
+    <input class="gs-radio" type="radio" name="getting-started" id="gs-chat">
+
+    <div class="gs-tabs">
+      <label for="gs-cli">As a CLI tool</label>
+      <label for="gs-agents">As agent skills</label>
+      <label for="gs-mcp">As an MCP</label>
+      <label for="gs-chat">Weather Skills Chat</label>
+    </div>
+
+    <div class="gs-panel gs-panel-cli">
+      <p>For command-line use, with no install:</p>
+      <pre><code># List available skills
+uvx --from git+https://github.com/weather-skills/weather-skills-catalog weather-skills
+
+# Run one
+uvx --from git+https://github.com/weather-skills/weather-skills-catalog weather-skills &lt;skill&gt; [args]</code></pre>
+    </div>
+
+    <div class="gs-panel gs-panel-agents">
+      <p>For use by a local agent, install the <code>SKILL.md</code> files into your project with <a href="https://github.com/rohitg00/skillkit">skillkit</a>:</p>
+      <pre><code># List what skillkit discovers in the repo
+npx skillkit install weather-skills/weather-skills-catalog --list
+
+# Install all skills to the current project
+npx skillkit install weather-skills/weather-skills-catalog --all --yes
+
+# Install just a subset
+npx skillkit install weather-skills/weather-skills-catalog --skill=ecmwf-fetch</code></pre>
+    </div>
+
+    <div class="gs-panel gs-panel-mcp">
+      <p>A hosted MCP will be coming soon.</p>
+    </div>
+
+    <div class="gs-panel gs-panel-chat">
+      <p>
+        We are rolling out a hosted version of weather skills. Request access
+        if you are interested in being a beta tester.
+      </p>
+      <p><a class="cta" href="https://chat.weather-skills.org">Request access &#8594;</a></p>
+    </div>
+  </div>
+</section>
+
+<section id="adding-skills" class="section">
+  <header class="section-head">
+    <span class="section-no">03</span>
+    <h2>Adding your own skills</h2>
+  </header>
+  <p>
+    Do you have a new forecasting model, downscaling method, or weather data
+    visualization? Are you an expert in a field that relies on weather data
+    like disaster early warning, energy, or agriculture? We are excited to
+    work with you to build skills to access your data or enable your use case!
+  </p>
+  <p>
+    To make sure skills work well together, skills follow standard data format
+    and argument conventions, but most of the work is handled by the
+    <code>weather-skills-core</code> package so that you can focus on your
+    use case.
+  </p>
+  <p>
+    Check out existing skills in the
+    <a href="https://github.com/weather-skills/weather-skills-catalog">weather skills catalog</a>
+    to get started, or reach out to us at
+    <a href="mailto:info@rhizaresearch.org">info@rhizaresearch.org</a>
+    so that we can help.
+  </p>
+  <p>
+    <a class="cta" href="https://github.com/weather-skills/weather-skills-catalog/issues">Submit a skill &#8594;</a>
+  </p>
+</section>
+
+<section id="skills" class="section">
+  <header class="section-head">
+    <span class="section-no">04</span>
+    <h2>Skill catalog</h2>
+  </header>
+  <p>
+    A view of current capabilities. Click a skill for a short description.
+    Full write-ups are in the
+    <a href="https://github.com/weather-skills/weather-skills-catalog">weather skills catalog</a>.
+  </p>
+
+  <!-- gen:catalog -->
+</section>
+
+<section id="governance" class="section">
+  <header class="section-head">
+    <span class="section-no">05</span>
+    <h2>Governance</h2>
+  </header>
+  <p>
+    The library will be overseen by a working group of weather and climate data
+    practitioners. A submission and review process will define how new skills are
+    proposed, tested against the standard dataset contract, and admitted to the catalog.
+  </p>
+  <p>
+    Until that process is in place, contributions go through the repository directly:
+    open an <a href="https://github.com/weather-skills/weather-skills-catalog/issues">issue</a>
+    or a <a href="https://github.com/weather-skills/weather-skills-catalog/pulls">pull request</a>.
+  </p>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <span class="site-id">weather&#8209;skills.org</span>
+    <span>
+      <a href="https://github.com/weather-skills/weather-skills-catalog">Source on GitHub</a>
+      <span class="meta-sep" aria-hidden="true">/</span>
+      <a href="https://github.com/weather-skills/weather-skills-catalog/blob/main/LICENSE">MIT license</a>
+    </span>
+  </div>
+</footer>
+
+<script src="demo.js" defer></script>
+</body>
+</html>
