@@ -24,20 +24,6 @@ jobs:
       - name: Checkout site
         uses: actions/checkout@v6
 
-      # The catalog is generated from skill frontmatter, which lives in the
-      # skills repository rather than this site repository.
-      - name: Checkout skills
-        uses: actions/checkout@v6
-        with:
-          repository: rhiza-research/weather-skills
-          ref: main
-          path: _skills_repo
-          sparse-checkout: skills
-          sparse-checkout-cone-mode: true
-
-      - name: Stage skills for the site build
-        run: mv _skills_repo/skills skills && rm -rf _skills_repo
-
       - uses: astral-sh/setup-uv@v8.2.0
       - name: Build site
         run: uv run --script tools/build_site.py --output _site

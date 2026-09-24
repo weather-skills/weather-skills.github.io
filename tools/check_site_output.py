@@ -6,7 +6,8 @@
 
 Checks, per the site's stated constraints:
 
-1. The deployable files exist (index.html, 404.html, style.css, CNAME).
+1. The deployable files exist (index.html, 404.html, style.css), and no
+   CNAME file is published (the site uses the default GitHub Pages host).
 2. Every .html file is well-formed: tags balance under a real parse
    (html.parser with an open-tag stack; void elements excluded), no end
    tag without a matching start tag, nothing left open at end of input.
@@ -39,7 +40,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlsplit
 
-REQUIRED_FILES = ("index.html", "404.html", "style.css", "CNAME")
+REQUIRED_FILES = ("index.html", "404.html", "style.css")
 
 # The custom domain the site is served from; references to it are same-site.
 SITE_HOST = "weather-skills.org"
@@ -220,6 +221,8 @@ def _check(out_dir: Path) -> int:
     for filename in REQUIRED_FILES:
         if not (out_dir / filename).is_file():
             errors.append(f"missing required file: {filename}")
+    if (out_dir / "CNAME").exists():
+        errors.append("CNAME must not be published; the site is served from the default GitHub Pages host")
 
     for path in sorted(p for p in out_dir.rglob("*") if p.is_file()):
         rel = path.relative_to(out_dir)

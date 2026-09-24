@@ -2,18 +2,21 @@
 # requires-python = ">=3.10"
 # dependencies = ["pyyaml"]
 # ///
-"""Build the deployable weather-skills.org site from the template in site/.
+"""Build the deployable GitHub Pages site from the template in site/.
 
-Reads every `skills/*/SKILL.md` frontmatter (`name`, `description`, the
-nested `metadata.catalog-group` key, and `metadata.openclaw.requires.env`),
+Clones `skills/` from https://github.com/weather-skills/weather-skills-catalog
+at `main` (layout `skills/<collection>/<skill>/SKILL.md`), reads each
+SKILL.md frontmatter (`name`, `description`, the nested
+`metadata.catalog-group` key, and `metadata.openclaw.requires.env`),
 renders the skill catalog as four short capability boxes and the skill
 count into `site/index.html` via marker comments, and writes the complete
-deployable site (index.html, 404.html, style.css, CNAME) to the output
+deployable site (index.html, 404.html, style.css) to the output
 directory. Catalog labels are short names (a dataset or an operation), not
 the skill directory name. Each label opens a one-line description: where a
 datasource comes from, or what any other skill does. The boxes and count
-track the skills tree: adding, removing, or regrouping a skill changes the
-page on the next build with no template edit.
+track the catalog: adding, removing, or regrouping a skill changes the
+page on the next build with no template edit. The output is served from
+the default `*.github.io` host, so the build does not publish a CNAME.
 
 The output directory is created fresh on every build. An existing output
 directory is cleaned only if it is empty or carries the marker file this
@@ -32,12 +35,21 @@ Usage:
 
 import argparse
 import html
+import os
 import re
 import shutil
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 import yaml
+
+# Public catalog the page is generated from. Skills live at skills/ on main,
+# grouped as skills/<collection>/<skill>/SKILL.md.
+CATALOG_REPO = "https://github.com/weather-skills/weather-skills-catalog.git"
+CATALOG_REF = "main"
+CATALOG_SKILLS_PATH = "skills"
 
 # Catalog boxes in page order. Every SKILL.md must carry one of these keys
 # in `metadata.catalog-group`.
@@ -81,14 +93,10 @@ _CATALOG_LABELS: dict[str, tuple[str, ...]] = {
     "resolve-region": ("resolve-region",),
     "resolve-time": ("resolve-time",),
     "submit-feedback": ("feedback",),
-}
-
-# Skills in weather-skills/weather-skills-catalog that are not in this repo
-# (the chc-skills collection). Listed here so the page still shows them.
-_EXTRA_CATALOG_LABELS: dict[str, tuple[str, ...]] = {
-    "fetchers": ("SubC MME",),
-    "transforms": ("IOD",),
-    "figure": ("ITF", "MJO"),
+    "africa-itf": ("ITF",),
+    "iod-mode-index": ("IOD",),
+    "mjo-forecast-fetch": ("MJO",),
+    "subc-mme-fetch": ("SubC MME",),
 }
 
 # One line shown when a catalog label is opened. Datasource lines say where
@@ -144,7 +152,6 @@ _CATALOG_BLURBS: dict[str, str] = {
 # Files copied verbatim from site/ into the output directory.
 STATIC_FILES = (
     "style.css",
-    "CNAME",
     "404.html",
     "demo.js",
     "demo_sen_weekly.png",
@@ -210,6 +217,63 @@ def _requires_credentials(skill_md: Path, metadata: dict) -> bool:
     return len(env) > 0
 
 
+def _visible_dirs(path: Path) -> list[Path]:
+    """Return non-hidden child directories, in name order."""
+    return [
+        entry
+        for entry in sorted(path.iterdir())
+        if entry.is_dir() and not entry.name.startswith(".") and entry.name != "__pycache__"
+    ]
+
+
+def _skill_dirs(skills_dir: Path) -> list[Path]:
+    """Return skill directories under the catalog `skills/` tree.
+
+    The catalog layout is `skills/<collection>/<skill>/SKILL.md`. A flat
+    `skills/<skill>/SKILL.md` tree is also accepted.
+    """
+    children = _visible_dirs(skills_dir)
+    if not children:
+        raise ValueError(f"no skill directories under {skills_dir}")
+    if any((child / "SKILL.md").is_file() for child in children):
+        return children
+    skill_dirs: list[Path] = []
+    for collection in children:
+        nested = _visible_dirs(collection)
+        if not nested:
+            raise ValueError(f"{collection}: collection directory has no skills")
+        skill_dirs.extend(nested)
+    return skill_dirs
+
+
+def _fetch_skills_dir(dest: Path) -> Path:
+    """Clone the catalog at main and return its skills directory."""
+    env = os.environ.copy()
+    env["GIT_TERMINAL_PROMPT"] = "0"
+    clone = subprocess.run(
+        [
+            "git",
+            "clone",
+            "--depth",
+            "1",
+            "--branch",
+            CATALOG_REF,
+            CATALOG_REPO,
+            str(dest),
+        ],
+        capture_output=True,
+        text=True,
+        env=env,
+    )
+    if clone.returncode != 0:
+        detail = (clone.stderr or clone.stdout).strip()
+        raise ValueError(f"failed to clone {CATALOG_REPO}@{CATALOG_REF}: {detail}")
+    skills_dir = dest / CATALOG_SKILLS_PATH
+    if not skills_dir.is_dir():
+        raise ValueError(f"clone of {CATALOG_REPO}@{CATALOG_REF} has no {CATALOG_SKILLS_PATH}/ directory")
+    return skills_dir
+
+
 def _collect_skills(skills_dir: Path) -> dict[str, list[tuple[str, str, bool]]]:
     """Read all SKILL.md files; return {group_key: [(name, description, creds), ...]}.
 
@@ -217,17 +281,16 @@ def _collect_skills(skills_dir: Path) -> dict[str, list[tuple[str, str, bool]]]:
     `metadata.openclaw.requires.env` list. Entries are sorted by skill name
     within each group. Raises ValueError on a skill directory without a
     SKILL.md, a missing/unknown group key, a name that doesn't match its
-    directory, a missing description, or a malformed
+    directory, a missing description, a duplicate skill name, or a malformed
     `metadata.openclaw.requires.env` shape.
     """
     known = {key for key, _, _ in GROUPS}
     grouped: dict[str, list[tuple[str, str, bool]]] = {key: [] for key, _, _ in GROUPS}
-    for entry in sorted(skills_dir.iterdir()):
-        if not entry.is_dir() or entry.name.startswith(".") or entry.name == "__pycache__":
-            continue
+    skill_dirs = _skill_dirs(skills_dir)
+    for entry in skill_dirs:
         if not (entry / "SKILL.md").is_file():
             raise ValueError(f"{entry}: skill directory has no SKILL.md")
-    skill_mds = sorted(skills_dir.glob("*/SKILL.md"), key=lambda p: p.parent.name)
+    skill_mds = sorted((entry / "SKILL.md" for entry in skill_dirs), key=lambda p: p.parent.name)
     if not skill_mds:
         raise ValueError(f"no skills/*/SKILL.md found under {skills_dir}")
     for skill_md in skill_mds:
@@ -237,6 +300,8 @@ def _collect_skills(skills_dir: Path) -> dict[str, list[tuple[str, str, bool]]]:
             raise ValueError(
                 f"{skill_md}: frontmatter name {name!r} != directory name {skill_md.parent.name!r}"
             )
+        if any(existing == name for members in grouped.values() for existing, _, _ in members):
+            raise ValueError(f"{skill_md}: duplicate skill name {name!r}")
         description = front.get("description")
         if not isinstance(description, str) or not description.strip():
             raise ValueError(f"{skill_md}: frontmatter has no description")
@@ -275,10 +340,6 @@ def _render_catalog(grouped: dict[str, list[tuple[str, str, bool]]]) -> str:
                 if short not in seen:
                     seen.add(short)
                     labels.append(short)
-        for short in _EXTRA_CATALOG_LABELS.get(key, ()):
-            if short not in seen:
-                seen.add(short)
-                labels.append(short)
         labels.sort(key=str.casefold)
         items: list[str] = []
         for short in labels:
@@ -352,12 +413,13 @@ def main() -> int:
     args = parser.parse_args()
 
     repo_root = Path(__file__).resolve().parent.parent
-    skills_dir = repo_root / "skills"
     site_dir = repo_root / "site"
     out_dir = Path(args.output).resolve() if args.output else repo_root / "_site"
 
     try:
-        grouped = _collect_skills(skills_dir)
+        with tempfile.TemporaryDirectory(prefix="weather-skills-catalog-") as tmp_name:
+            skills_dir = _fetch_skills_dir(Path(tmp_name) / "catalog")
+            grouped = _collect_skills(skills_dir)
         count = sum(len(members) for members in grouped.values())
         template = (site_dir / "index.html").read_text(encoding="utf-8")
         page = _substitute(
@@ -376,7 +438,7 @@ def main() -> int:
     for filename in STATIC_FILES:
         shutil.copy2(site_dir / filename, out_dir / filename)
     (out_dir / MARKER_FILE).write_text("weather-skills.org site build output\n", encoding="utf-8")
-    print(f"Built site with {count} skills -> {out_dir}")
+    print(f"Built site with {count} skills from {CATALOG_REPO}@{CATALOG_REF} -> {out_dir}")
     return 0
 
 
