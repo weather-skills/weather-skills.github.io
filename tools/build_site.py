@@ -10,13 +10,13 @@ SKILL.md frontmatter (`name`, `description`, the nested
 `metadata.catalog-group` key, and `metadata.openclaw.requires.env`),
 renders the skill catalog as four short capability boxes and the skill
 count into `site/index.html` via marker comments, and writes the complete
-deployable site (index.html, 404.html, style.css) to the output
+deployable site (index.html, 404.html, style.css, CNAME) to the output
 directory. Catalog labels are short names (a dataset or an operation), not
 the skill directory name. Each label opens a one-line description: where a
 datasource comes from, or what any other skill does. The boxes and count
 track the catalog: adding, removing, or regrouping a skill changes the
-page on the next build with no template edit. The output is served from
-the default `*.github.io` host, so the build does not publish a CNAME.
+page on the next build with no template edit. The CNAME publishes the site
+at weather-skills.org.
 
 The output directory is created fresh on every build. An existing output
 directory is cleaned only if it is empty or carries the marker file this
@@ -152,6 +152,7 @@ _CATALOG_BLURBS: dict[str, str] = {
 # Files copied verbatim from site/ into the output directory.
 STATIC_FILES = (
     "style.css",
+    "CNAME",
     "404.html",
     "demo.js",
     "demo_sen_weekly.png",
