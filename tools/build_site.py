@@ -158,6 +158,7 @@ STATIC_FILES = (
     "demo_sen_weekly.png",
     "demo_sen_gmb_weekly.png",
     "weather-skills-chat-orig.gif",
+    "favicon.png",
 )
 
 # Written into the output directory so a later build can recognize the
