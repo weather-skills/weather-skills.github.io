@@ -76,7 +76,7 @@ RESOURCE_ATTRS: dict[str, tuple[str, ...]] = {
 # is a third-party link target and fails the check.
 ALLOWED_LINK_PREFIXES = (
     "https://github.com/weather-skills/weather-skills-catalog",
-    "https://github.com/rhiza-research/weather-skills-core",
+    "https://github.com/weather-skills/weather-skills-core",
     "https://agentskills.io",
     "https://github.com/rohitg00/skillkit",
     "https://chat.weather-skills.org",
