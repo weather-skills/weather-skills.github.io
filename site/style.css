@@ -221,6 +221,12 @@ pre code {
   color: var(--ink-soft);
 }
 
+.agent-handoff-label strong {
+  color: var(--accent-deep);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
 .agent-handoff-chip {
   display: flex;
   align-items: stretch;
