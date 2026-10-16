@@ -1,10 +1,10 @@
 # weather skills: setup for coding agents
 
-A person has asked you to set up weather skills in their project. Weather skills are reviewed command-line tools for weather and climate data. Each one does one job, such as fetching a forecast, clipping it to a region, aggregating it to weekly totals, or drawing a map. Every file they write records how it was made. Your job is to pick the skills and run them in order; the skills do the data work.
+A person has asked you to set up weather skills in their project. Weather skills are reviewed command-line tools for weather and climate data: fetchers, transforms, and plots that you chain together, each recording how its output was made.
 
-Work through the sections below. Keep changes inside this project, and ask the person before you touch anything outside it.
+This page covers installing the skills and checking the install. How to work with them comes from the weather-skills sources themselves, linked in step 3; read those rather than relying on a summary here. Keep changes inside this project, and ask the person before you touch anything outside it.
 
-## Get the skills
+## 1. Get the skills
 
 All skills run through [uv](https://docs.astral.sh/uv/). Check that `uv` is installed. If it is missing, point the person to the uv install page rather than installing it system-wide yourself.
 
@@ -26,9 +26,7 @@ uvx --from git+https://github.com/weather-skills/weather-skills-catalog weather-
 
 With no arguments it lists every skill. `weather-skills <skill> --help` shows a skill's arguments.
 
-Each skill's `SKILL.md` says when to use it and which environment variables it needs. The full catalog is at https://github.com/weather-skills/weather-skills-catalog, and https://weather-skills.org/#skills shows it grouped as datasources, transformations, visualizations, and utilities.
-
-## Check that it works
+## 2. Check that it works
 
 This needs no credentials:
 
@@ -38,16 +36,19 @@ uvx --from git+https://github.com/weather-skills/weather-skills-catalog weather-
 
 Expect one `N/W/S/E` bounding box for Kenya, about `5.43/33.91/-4.70/41.91`. If anything else happens, show the person the command and the error exactly; do not speculate about why.
 
-## Working with weather skills
+## 3. Learn how to use them
 
-1. **Narrow the request first.** Turn place names into a bounding box with `resolve-region`, and phrases like "last month" into dates with `resolve-time`. Fetch only that box and that window.
-2. **Start with credential-free sources.** `dynamical-fetch` covers GFS, GEFS, ECMWF IFS-ENS, AIFS, IMERG, CHIRPS, and more without any account. Reach for other fetchers when it does not carry what you need.
-3. **Pass files between skills.** Data skills write a standard dataset (a CF-compliant Zarr store). Give that path to the next skill's `--input`.
-4. **Let the skills do the data work.** Do not write your own fetching, regridding, aggregation, or plotting code when a skill covers it. Skill outputs are reviewed and carry provenance; one-off scripts do not.
-5. **Leave the data as it is.** Never fill gaps, extrapolate, or adjust values. If data is missing, say so.
-6. **Keep secrets out of the chat.** When a skill needs credentials, ask the person to set the environment variables its `SKILL.md` names. Do not ask them to paste keys into the conversation, and never echo one.
-7. **Show your work.** To explain where a file came from, run the `provenance` skill on it.
+Fetch and read these now. They are maintained alongside the skills, so they are current.
 
-## When you are done
+- **Operating instructions:** https://raw.githubusercontent.com/rhiza-research/weather-skills/main/agents/forecaster.md
+  This is the system prompt of the weather-skills forecaster agent. Follow it for every weather or climate data task in this project: which fetcher to prefer, how to resolve dates and regions, how to chain skills, rates versus totals, managing output files, provenance, and credentials. Two adjustments for a local coding agent: you discover the skills you installed in step 1 rather than "bundled" ones, and credentials come from environment variables the person sets in their own shell.
+- **Each skill's `SKILL.md`:** when to use it, its arguments, and the environment variables it needs. Read a skill's `SKILL.md` before you first call it.
+- **Data contract** (read when you inspect, combine, or explain outputs):
+  - https://raw.githubusercontent.com/weather-skills/weather-skills-core/main/docs/weather-skill-authoring/references/STANDARD_DATASET.md — the standard dataset every data skill reads and writes: dimension names, dataset types, and the provenance attribute.
+  - https://raw.githubusercontent.com/weather-skills/weather-skills-core/main/docs/weather-skill-authoring/references/UNITS.md — the units contract: standard units, rates, and totals.
 
-Tell the person which install route you took, where the skills now live, and the bounding box the check printed. Then ask what weather or climate question they want to look at. Bugs and suggestions go to https://github.com/weather-skills/weather-skills-catalog/issues or help@weather-skills.org.
+Ask the person whether to add a line to this project's agent instructions file (`CLAUDE.md`, `AGENTS.md`, or your tool's equivalent) pointing at the operating instructions above, so later sessions pick them up.
+
+## 4. Tell the person
+
+Report which install route you took, where the skills now live, and the bounding box the check printed. Then ask what weather or climate question they want to look at. Bugs and suggestions go to https://github.com/weather-skills/weather-skills-catalog/issues or help@weather-skills.org.
