@@ -60,6 +60,18 @@ GROUPS: list[tuple[str, str, str | None]] = [
     ("agent-tooling", "Utilities", None),
 ]
 
+# Site-side box placement that overrides a skill's `metadata.catalog-group`.
+# The frontmatter key must still be valid; this only moves where the skill
+# is shown on the page.
+_CATALOG_GROUP_OVERRIDES: dict[str, str] = {
+    "africa-itf": "fetchers",
+    "clim-fetch": "transforms",
+    "convert-calendar": "agent-tooling",
+    "label-group": "agent-tooling",
+    "mjo-forecast-fetch": "fetchers",
+    "ncics-mjo-png": "fetchers",
+}
+
 # Short names shown in the catalog boxes. A skill that covers several
 # products lists each product. Skills absent from this map fall back to a
 # shortened form of their directory name.
@@ -71,7 +83,7 @@ _CATALOG_LABELS: dict[str, tuple[str, ...]] = {
     "clim-fetch": ("climatology",),
     "cmip6-fetch": ("CMIP6",),
     "cumulus-fetch": ("Cumulus",),
-    "dynamical-fetch": ("GFS", "GEFS", "IFS-ENS", "AIFS", "ICON-EU", "MRMS"),
+    "dynamical-fetch": ("GFS", "GEFS", "ECMWF ENS", "AIFS", "ICON-EU", "MRMS"),
     "ecmwf-fetch": ("ECMWF S2S",),
     "ecmwf-hres-fetch": ("ECMWF HRES",),
     "ghcn-daily-fetch": ("GHCN",),
@@ -104,7 +116,7 @@ _CATALOG_LABELS: dict[str, tuple[str, ...]] = {
     "summarize-dim": ("summarize",),
     "unit-convert": ("units",),
     "zonal-moisture-transport": ("moisture transport",),
-    "plot": ("maps", "timeseries", "mediogram"),
+    "plot": ("heatmap", "timeseries", "windrose", "pressure levels", "animations"),
     "inspect-zarr": ("inspect data",),
     "resolve-region": ("resolve-region",),
     "resolve-time": ("resolve-time",),
@@ -131,6 +143,7 @@ _CATALOG_BLURBS: dict[str, str] = {
     "CHIRPS": "UC Santa Barbara Climate Hazards Center precipitation.",
     "CMIP6": "CMIP6 climate-model output from the Pangeo catalog on Google Cloud.",
     "Cumulus": "Cumulus AI subseasonal precipitation ensemble, from Azure Blob storage.",
+    "ECMWF ENS": "ECMWF Integrated Forecasting System ensemble, via the dynamical.org catalog.",
     "ECMWF HRES": "ECMWF high-resolution deterministic forecast, from ECMWF Open Data.",
     "ECMWF S2S": "ECMWF subseasonal-to-seasonal ensemble, from the ECMWF Data Stores.",
     "ERA5": "ECMWF ERA5 reanalysis, from the ARCO store on Google Cloud.",
@@ -139,10 +152,12 @@ _CATALOG_BLURBS: dict[str, str] = {
     "GHCN": "NOAA Global Historical Climatology Network daily station observations.",
     "GSMaP": "JAXA GSMaP hourly satellite precipitation, from the JAXA Earth API.",
     "ICON-EU": "DWD ICON-EU regional forecast, via the dynamical.org catalog.",
-    "IFS-ENS": "ECMWF Integrated Forecasting System ensemble, via the dynamical.org catalog.",
     "IMERG": "NASA IMERG satellite precipitation, from NASA Earthdata.",
     "Meteosat": "EUMETSAT Meteosat geostationary satellite imagery, from the EUMETSAT Data Store.",
+    "ITF": "NOAA CPC maps and time series of the African Intertropical Front position.",
+    "MJO": "NOAA CPC Madden–Julian Oscillation forecast phase diagrams from the major models.",
     "MRMS": "NOAA Multi-Radar Multi-Sensor precipitation analysis, via the dynamical.org catalog.",
+    "NCICS MJO": "NCICS maps and Hovmöller diagrams of the MJO and equatorial waves.",
     "NeuralGCM": "NeuralGCM subseasonal AI ensemble, from the Tomorrow Now archive on Google Cloud.",
     "OISST": "NOAA Optimum Interpolation sea-surface temperature, from NOAA Physical Sciences Laboratory.",
     "OpenAQ": "Air-quality station observations from the OpenAQ network.",
@@ -153,9 +168,9 @@ _CATALOG_BLURBS: dict[str, str] = {
     "TAHMO": "TAHMO weather stations across Africa.",
     "WeatherNext": "Google WeatherNext AI ensemble forecast, from Google Cloud.",
     "WindBorne": "WindBorne WeatherMesh AI forecasts and point data, from the WindBorne API.",
-    "climatology": "Daily climatologies of IMERG, ERA5, CHIRPS, IFS, GEFS, and OISST, from a public Sheerwater mirror.",
     "aggregate": "Roll a time series up into daily, weekly, dekadal, or monthly windows.",
     "calendar": "Convert a dataset's time axis onto another calendar.",
+    "climatology": "Lay a daily climatology of IMERG, ERA5, CHIRPS, ECMWF IFS, GEFS, or OISST onto a date range.",
     "clip": "Cut a dataset down to a bounding box or polygon.",
     "coarsen": "Regrid a dataset onto a coarser or realigned grid.",
     "concat": "Join datasets along one dimension.",
@@ -180,12 +195,11 @@ _CATALOG_BLURBS: dict[str, str] = {
     "units": "Convert variables into different units.",
     "verify": "Score a forecast against observations: event hits, bias, or mean absolute error.",
     "z-score": "Express a field as a standardized anomaly against its climatology.",
-    "maps": "Draw maps, station dots, wind arrows, and animated maps from one or more datasets.",
-    "ITF": "Show the latest NOAA CPC map of the African Intertropical Front.",
-    "mediogram": "Compare a forecast ensemble with its historical climate at one place.",
-    "MJO": "Show the latest NOAA CPC Madden–Julian Oscillation phase diagram.",
-    "NCICS MJO": "Show NCICS maps and Hovmöller diagrams of the MJO and equatorial waves.",
+    "animations": "Play a map through time as interactive HTML or a GIF.",
+    "heatmap": "Draw a dataset as a colored map, with stations, contours, or wind arrows on top.",
+    "pressure levels": "Draw pressure charts with isobars, highs and lows, and 500 mb heights.",
     "timeseries": "Overlay several datasets as lines on one time axis.",
+    "windrose": "Draw a wind rose from wind speed and direction.",
     "analog years": "List past years whose El Niño state resembles a target year.",
     "CHC plot theme": "Supply KMSA and CHC map themes and rainfall colormaps.",
     "CHC regions": "Resolve the Tana basin, Kenya's counties, and other CHC regions to boxes or boundaries.",
@@ -366,6 +380,7 @@ def _collect_skills(skills_dir: Path) -> dict[str, list[tuple[str, str, bool]]]:
                 f"{skill_md}: `metadata.catalog-group` is {group!r}; "
                 f"expected one of {sorted(known)}"
             )
+        group = _CATALOG_GROUP_OVERRIDES.get(name, group)
         grouped[group].append((name, description, _requires_credentials(skill_md, metadata)))
     for key, _, _ in GROUPS:
         if not grouped[key]:
