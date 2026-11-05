@@ -7,7 +7,7 @@
 Clones `skills/` from https://github.com/weather-skills/weather-skills-catalog
 at `main` (layout `skills/<collection>/<skill>/SKILL.md`), reads each
 SKILL.md frontmatter (`name`, `description`, the nested
-`metadata.catalog-group` key, and `metadata.openclaw.requires.env`),
+`metadata.catalog-group` key, and `metadata.required-env`),
 renders the skill catalog as four short capability boxes and the skill
 count into `site/index.html` via marker comments, and writes the complete
 deployable site (index.html, 404.html, style.css, CNAME) to the output
@@ -257,28 +257,16 @@ def _catalog_labels(name: str) -> tuple[str, ...]:
 
 
 def _requires_credentials(skill_md: Path, metadata: dict) -> bool:
-    """True when frontmatter `metadata.openclaw.requires.env` is a non-empty list.
+    """True when frontmatter `metadata.required-env` names at least one env var.
 
-    An absent `openclaw`, `requires`, or `env` key means no credentials. A key
-    that is present with the wrong shape (`openclaw`/`requires` not a mapping,
-    `env` not a list) raises ValueError naming the skill.
+    The value is one space-separated string (the Agent Skills spec allows only
+    string values under `metadata`). An absent key means no credentials; a
+    present key that is not a string raises ValueError naming the skill.
     """
-    if "openclaw" not in metadata:
-        return False
-    openclaw = metadata["openclaw"]
-    if not isinstance(openclaw, dict):
-        raise ValueError(f"{skill_md}: `metadata.openclaw` is not a mapping: {openclaw!r}")  # noqa: TRY004 -- ValueError is the documented malformed-frontmatter contract; not a type bug
-    if "requires" not in openclaw:
-        return False
-    requires = openclaw["requires"]
-    if not isinstance(requires, dict):
-        raise ValueError(f"{skill_md}: `metadata.openclaw.requires` is not a mapping: {requires!r}")  # noqa: TRY004 -- ValueError is the documented malformed-frontmatter contract; not a type bug
-    if "env" not in requires:
-        return False
-    env = requires["env"]
-    if not isinstance(env, list):
-        raise ValueError(f"{skill_md}: `metadata.openclaw.requires.env` is not a list: {env!r}")  # noqa: TRY004 -- ValueError is the documented malformed-frontmatter contract; not a type bug
-    return len(env) > 0
+    env = metadata.get("required-env", "")
+    if not isinstance(env, str):
+        raise ValueError(f"{skill_md}: `metadata.required-env` is not a string: {env!r}")  # noqa: TRY004 -- ValueError is the documented malformed-frontmatter contract; not a type bug
+    return bool(env.split())
 
 
 def _visible_dirs(path: Path) -> list[Path]:
@@ -342,11 +330,11 @@ def _collect_skills(skills_dir: Path) -> dict[str, list[tuple[str, str, bool]]]:
     """Read all SKILL.md files; return {group_key: [(name, description, creds), ...]}.
 
     `creds` is True when the skill's frontmatter declares a non-empty
-    `metadata.openclaw.requires.env` list. Entries are sorted by skill name
+    `metadata.required-env` string. Entries are sorted by skill name
     within each group. Raises ValueError on a skill directory without a
     SKILL.md, a missing/unknown group key, a name that doesn't match its
     directory, a missing description, a duplicate skill name, or a malformed
-    `metadata.openclaw.requires.env` shape.
+    `metadata.required-env` value.
     """
     known = {key for key, _, _ in GROUPS}
     grouped: dict[str, list[tuple[str, str, bool]]] = {key: [] for key, _, _ in GROUPS}
