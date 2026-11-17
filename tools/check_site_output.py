@@ -40,7 +40,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlsplit
 
-REQUIRED_FILES = ("index.html", "404.html", "style.css", "CNAME")
+REQUIRED_FILES = ("index.html", "404.html", "style.css", "CNAME", "setup.md")
 
 # The custom domain the site is served from; references to it are same-site.
 SITE_HOST = "weather-skills.org"
