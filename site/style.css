@@ -10,6 +10,9 @@
   --rule-faint: #ddd7c7;
   --accent: #11606a;
   --accent-deep: #0b454d;
+  --plum: #7c0047;
+  --plum-deep: #3f0127;
+  --plum-light: #f3d9e6;
   --warn-bg: #f4e9d3;
   --warn-edge: #b07d2e;
   --code-bg: #20262a;
@@ -222,7 +225,7 @@ pre code {
 }
 
 .agent-handoff-label strong {
-  color: var(--accent-deep);
+  color: var(--plum);
   text-transform: uppercase;
   letter-spacing: 0.12em;
 }
@@ -230,10 +233,11 @@ pre code {
 .agent-handoff-chip {
   display: flex;
   align-items: stretch;
-  background: var(--code-bg);
-  border-left: 3px solid var(--accent);
+  background: var(--plum-deep);
+  border-left: 3px solid var(--plum);
   border-radius: 3px;
   overflow: hidden;
+  box-shadow: 5px 5px 0 color-mix(in srgb, var(--plum) 18%, transparent);
 }
 
 .agent-handoff-chip code {
@@ -242,7 +246,7 @@ pre code {
   font-family: var(--mono);
   font-size: 0.78rem;
   line-height: 1.45;
-  color: var(--code-ink);
+  color: var(--plum-light);
   background: none;
   border: 0;
   user-select: all;
@@ -256,17 +260,16 @@ pre code {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--code-ink);
-  background: color-mix(in srgb, var(--code-ink) 10%, transparent);
+  color: var(--paper);
+  background: var(--plum);
   border: 0;
-  border-left: 1px solid color-mix(in srgb, var(--code-ink) 20%, transparent);
   cursor: pointer;
 }
 
 .agent-handoff-chip button:hover,
 .agent-handoff-chip button:focus-visible {
-  color: var(--code-bg);
-  background: var(--code-ink);
+  color: var(--plum-deep);
+  background: var(--plum-light);
 }
 
 .visually-hidden {
