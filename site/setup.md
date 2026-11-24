@@ -42,7 +42,7 @@ The first must print one `N/W/S/E` bounding box for Kenya, about `5.43/33.91/-4.
 
 Fetch and read these now. They are maintained alongside the skills, so they are current.
 
-- **Operating instructions:** https://raw.githubusercontent.com/rhiza-research/rhiza-weather-skills/main/agents/forecaster.md
+- **Operating instructions:** https://raw.githubusercontent.com/weather-skills/weather-skills-catalog/main/agents/forecaster.md
   This is the system prompt of the weather-skills forecaster agent. Follow it for every weather or climate data task in this project: which fetcher to prefer, how to resolve dates and regions, how to chain skills, rates versus totals, managing output files, provenance, and credentials. Two adjustments for a local coding agent: you discover the skills you installed in step 1 rather than "bundled" ones, and credentials come from environment variables the person sets in their own shell.
 - **Each skill's `SKILL.md`:** when to use it, its arguments, and the environment variables it needs. Read a skill's `SKILL.md` before you first call it.
 - **Data contract** (read when you inspect, combine, or explain outputs):
